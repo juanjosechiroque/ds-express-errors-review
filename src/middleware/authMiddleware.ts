@@ -1,8 +1,8 @@
 import type { NextFunction, Request, Response } from "express";
 import { getUserInactiveReason } from "../api/user/user.service.js";
 import { verifyToken } from "../utils/jwt.js";
-import { UnauthorizedError } from "../errors.js";
 import logger from "../utils/logger.js";
+import { Errors } from "ds-express-errors";
 
 const bearerTokenRegex = /^Bearer\s+(\S+)$/i;
 
@@ -11,12 +11,12 @@ export const authenticate = async (req: Request, _res: Response, next: NextFunct
     const match = authHeader?.match(bearerTokenRegex);
 
     if (!match) {
-        return next(UnauthorizedError("Authorization header missing or invalid"));
+        return next(Errors.Unauthorized("Authorization header missing or invalid"));
     }
 
     const token = match[1];
     if (!token) {
-        return next(UnauthorizedError("Authorization header missing or invalid"));
+        return next(Errors.Unauthorized("Authorization header missing or invalid"));
     }
 
     try {
@@ -28,7 +28,7 @@ export const authenticate = async (req: Request, _res: Response, next: NextFunct
                 { userId: decoded.sub, reason: inactiveReason, ip: req.ip },
                 "Auth user rejected"
             );
-            return next(UnauthorizedError("Invalid or expired token", "INVALID_TOKEN"));
+            return next(Errors.Unauthorized("Invalid or expired token"));
         }
 
         req.user = decoded;
