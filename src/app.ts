@@ -1,7 +1,7 @@
 import express from "express";
 import { pinoHttp } from "pino-http";
 import router from "./router.js";
-import { errorGenericHandler } from "./middleware/errorMiddleware.js";
+import { errorHandler } from 'ds-express-errors'
 import { notFound } from "./middleware/notFoundMiddleware.js";
 import { requestIdMiddleware } from "./middleware/requestIdMiddleware.js";
 import { NODE_ENV } from "./config.js";
@@ -39,6 +39,6 @@ app.get("/", (req, res) => {
 
 app.use("/v1", router);
 app.use(notFound);
-app.use(errorGenericHandler);
+app.use(errorHandler);
 
 export default app;
