@@ -2,6 +2,7 @@ import app from "./src/app.js";
 import { PORT } from "./src/config.js";
 import { connectDB, disconnectDB } from "./src/database.js";
 import logger from "./src/utils/logger.js";
+import { initGlobalHandlers, gracefulHttpClose } from "ds-express-errors";
 
 await connectDB();
 
@@ -14,41 +15,10 @@ server.on("error", (err: Error) => {
     process.exit(1);
 });
 
-let shuttingDown = false;
+initGlobalHandlers({
+    closeServer: gracefulHttpClose(server),
 
-async function shutdown(signal: NodeJS.Signals) {
-    logger.info({ signal }, "Shutdown initiated");
-
-    if (shuttingDown) return;
-    shuttingDown = true;
-
-    let exitCode = 0;
-    const forceShutdownTimer = setTimeout(() => {
-        logger.error("Forced shutdown after timeout");
-        process.exit(1);
-    }, 10_000);
-
-    forceShutdownTimer.unref();
-
-    try {
-        await new Promise<void>((resolve, reject) => {
-            server.close((closeErr) => (closeErr ? reject(closeErr) : resolve()));
-        });
-    } catch (error) {
-        exitCode = 1;
-        logger.error({ err: error }, "HTTP server failed to close cleanly");
-    } finally {
+    onShutdown: async (_signal) => {
         await disconnectDB();
-        clearTimeout(forceShutdownTimer);
-    }
-
-    logger.info({ exitCode }, "Shutdown completed");
-    process.exit(exitCode);
-}
-
-process.on("SIGTERM", () => {
-    void shutdown("SIGTERM");
-});
-process.on("SIGINT", () => {
-    void shutdown("SIGINT");
+    },
 });
