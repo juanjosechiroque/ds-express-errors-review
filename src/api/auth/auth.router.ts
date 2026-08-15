@@ -2,7 +2,7 @@ import { Router } from "express";
 import { validate } from "../../middleware/validationMiddleware.js";
 import { loginSchema } from "./auth.validation.js";
 import { registerUserHandler, loginUserHandler } from "./auth.controller.js";
-import { asyncHandler } from "../../utils/asyncHandler.js";
+import { asyncHandler } from "ds-express-errors";
 
 const router = Router();
 
