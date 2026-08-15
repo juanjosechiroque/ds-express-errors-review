@@ -5,15 +5,14 @@ if (process.env.NODE_ENV !== "production") {
     dotenv.config();
 }
 
-const envSchema = z
-    .object({
-        NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
-        PORT: z.coerce.number().int().positive().default(3000),
-        MONGODB_URI: z.string().trim().min(1, "MONGODB_URI is required"),
-        JWT_SECRET: z.string().min(32, "JWT_SECRET must be at least 32 characters"),
-        JWT_EXPIRATION_TIME: z.string().trim().min(1).default("1h"),
-        LOG_LEVEL: z.enum(["trace", "debug", "info", "warn", "error", "fatal"]).default("info"),
-    });
+const envSchema = z.object({
+    NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
+    PORT: z.coerce.number().int().positive().default(3000),
+    MONGODB_URI: z.string().trim().min(1, "MONGODB_URI is required"),
+    JWT_SECRET: z.string().min(32, "JWT_SECRET must be at least 32 characters"),
+    JWT_EXPIRATION_TIME: z.string().trim().min(1).default("1h"),
+    LOG_LEVEL: z.enum(["trace", "debug", "info", "warn", "error", "fatal"]).default("info"),
+});
 
 const parsedEnv = envSchema.safeParse(process.env);
 

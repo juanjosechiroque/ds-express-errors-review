@@ -1,7 +1,7 @@
 import express from "express";
 import { pinoHttp } from "pino-http";
 import router from "./router.js";
-import { errorHandler } from 'ds-express-errors'
+import { errorHandler } from "ds-express-errors";
 import { notFound } from "./middleware/notFoundMiddleware.js";
 import { requestIdMiddleware } from "./middleware/requestIdMiddleware.js";
 import { NODE_ENV } from "./config.js";

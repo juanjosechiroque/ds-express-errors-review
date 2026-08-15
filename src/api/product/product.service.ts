@@ -1,7 +1,7 @@
 import * as productRepository from "./product.repository.js";
 import { toProductDto } from "./product.mapper.js";
 import type { CreateProductInput, ListProductsInput, UpdateProductInput } from "./product.types.js";
-import { Errors } from 'ds-express-errors';
+import { Errors } from "ds-express-errors";
 
 export async function getProducts({
     cursor,
