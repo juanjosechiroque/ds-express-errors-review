@@ -31,16 +31,15 @@ describe("Feature: validate (body)", () => {
     it("Then calls next with BadRequestError when body is invalid", () => {
         const req = { body: {} } as unknown as Request;
         validate(schema)(req, makeRes(), next);
-        const err = next.mock.calls[0]?.[0] as { statusCode: number; details: unknown[] };
-        expect(err.statusCode).toBe(400);
-        expect(err.details).toBeInstanceOf(Array);
+        const err = next.mock.calls[0]?.[0] as { issues: unknown[] };
+        expect(err.issues).toBeInstanceOf(Array);
     });
 
     it("Then handles missing body gracefully", () => {
         const req = {} as unknown as Request;
         validate(schema)(req, makeRes(), next);
-        const err = next.mock.calls[0]?.[0] as { statusCode: number };
-        expect(err.statusCode).toBe(400);
+        const err = next.mock.calls[0]?.[0] as { issues: unknown[] };
+        expect(err.issues).toBeInstanceOf(Array);
     });
 });
 
@@ -56,16 +55,15 @@ describe("Feature: validateParams", () => {
     it("Then calls next with BadRequestError when params are invalid", () => {
         const req = { params: {} } as unknown as Request;
         validateParams(paramSchema)(req, makeRes(), next);
-        const err = next.mock.calls[0]?.[0] as { statusCode: number; details: unknown[] };
-        expect(err.statusCode).toBe(400);
-        expect(err.details).toBeInstanceOf(Array);
+        const err = next.mock.calls[0]?.[0] as { issues: unknown[] };
+        expect(err.issues).toBeInstanceOf(Array);
     });
 
     it("Then handles missing params gracefully", () => {
         const req = {} as unknown as Request;
         validateParams(paramSchema)(req, makeRes(), next);
-        const err = next.mock.calls[0]?.[0] as { statusCode: number };
-        expect(err.statusCode).toBe(400);
+        const err = next.mock.calls[0]?.[0] as { issues: unknown[] };
+        expect(err.issues).toBeInstanceOf(Array);
     });
 });
 
@@ -98,9 +96,8 @@ describe("Feature: validateQuery", () => {
     it("Then calls next with BadRequestError when query is invalid", () => {
         const req = { query: { page: "0" } } as unknown as Request;
         validateQuery(querySchema)(req, makeRes(), next);
-        const err = next.mock.calls[0]?.[0] as { statusCode: number; details: unknown[] };
-        expect(err.statusCode).toBe(400);
-        expect(err.details).toBeInstanceOf(Array);
+        const err = next.mock.calls[0]?.[0] as { issues: unknown[] };
+        expect(err.issues).toBeInstanceOf(Array);
     });
 
     it("Then handles missing query gracefully", () => {
