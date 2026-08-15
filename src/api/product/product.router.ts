@@ -8,7 +8,8 @@ import {
 } from "./product.controller.js";
 import { authenticate } from "../../middleware/authMiddleware.js";
 import { validate, validateParams, validateQuery } from "../../middleware/validationMiddleware.js";
-import { asyncHandler } from "../../utils/asyncHandler.js";
+import { asyncHandler } from "ds-express-errors";
+
 import {
     createProductSchema,
     updateProductSchema,
