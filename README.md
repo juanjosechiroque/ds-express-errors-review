@@ -33,7 +33,7 @@ This repo started as a trimmed-down copy of the author's own [nodejs-express-typ
 
 ## Baseline error handling
 
-The error handling in this codebase (`src/errors.ts`, `src/middleware/errorMiddleware.ts`, `src/middleware/validationMiddleware.ts`, `src/utils/asyncHandler.ts`, `src/utils/jwt.ts`) was originally hand-rolled, with no third-party library. It was replaced by `ds-express-errors` during this project — see the git history for the before/after comparison.
+The error handling in this codebase was originally hand-rolled, with no third-party library — a custom error factory (`src/errors.ts`), a global error middleware, a Zod-to-error adapter, a JWT try/catch, and a generic `asyncHandler`. It was fully replaced by `ds-express-errors` during this project, across `auth/*` and `product/*` alike; the original hand-rolled files (`src/errors.ts`, `src/middleware/errorMiddleware.ts`, `src/utils/asyncHandler.ts`) were deleted once nothing referenced them anymore — see the git history for the full before/after comparison.
 
 ## Running locally
 
@@ -49,7 +49,7 @@ npm run dev
 ```bash
 npm run dev            # development server
 npm run seed            # seed a demo user + products into MongoDB
-npm run smoke            # manual curl walkthrough of every error scenario (server + Mongo must be up)
+npm run shutdown-test    # verifies graceful shutdown with a real SIGTERM (Mongo must be up)
 npm test                # Vitest + Supertest
 npm run test:coverage   # coverage report
 npm run validate        # ESLint + Prettier check

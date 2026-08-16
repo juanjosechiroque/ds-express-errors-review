@@ -45,3 +45,7 @@ Thumbs.db
 # Output of npm pack
 *.tgz
 .DS_Store
+
+# Working notes for the developer-testing engagement, not part of the deliverable
+TESTING_NOTES.md
+EVALUATION.md
