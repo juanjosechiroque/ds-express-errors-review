@@ -1,9 +1,4 @@
 #!/usr/bin/env bash
-# Manual verification script — NOT part of the automated test suite.
-# Confirms graceful shutdown actually works: starts the server, fires a
-# request, sends SIGTERM mid-flight, and checks the process exits cleanly
-# after gracefulHttpClose + onShutdown run. Requires MongoDB up
-# (docker compose up -d mongo).
 set -euo pipefail
 
 LOG_FILE="$(mktemp)"
