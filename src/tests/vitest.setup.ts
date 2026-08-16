@@ -1,5 +1,15 @@
 import { beforeEach, vi } from "vitest";
+import { setConfig } from "ds-express-errors";
 import mockMongoose from "./mongoose-mock.js";
+
+export const mockErrorLogger = {
+    error: vi.fn(),
+    warn: vi.fn(),
+    info: vi.fn(),
+    debug: vi.fn(),
+};
+
+setConfig({ customLogger: mockErrorLogger });
 
 process.env.MONGODB_URI ??= "mongodb://127.0.0.1:27017/vitest";
 process.env.JWT_SECRET ??= "test-jwt-secret-thirty-two-chars-min";
